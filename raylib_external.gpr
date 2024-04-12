@@ -1,0 +1,10 @@
+with "math.gpr";
+library project Raylib_External is
+
+   for Languages use ("Ada", "C");
+   for Library_Name use "raylib";
+   for Library_Kind use "static";
+   for Library_Dir use "build-raylib/raylib";
+   for Externally_Built use "true";
+
+end Raylib_External;

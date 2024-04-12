@@ -1,0 +1,11 @@
+
+library project Math is
+
+   for Languages use ("Ada", "C");
+   for Library_Name use "m";
+   for Library_Kind use "dynamic";
+   for Library_Dir use "lib";
+   for Create_Missing_Dirs use "true";
+   for Externally_Built use "true";
+
+end Math;
