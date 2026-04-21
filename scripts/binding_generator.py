@@ -4,7 +4,7 @@ import json
 import re
 
 with open(
-    "/home/chouteau/src/github/raylib-ada/raylib/parser/output/raylib_api.json"
+    "/home/synack/src/raylib-ada/raylib/parser/output/raylib_api.json"
 ) as file:
     data = json.load(file)
 
@@ -44,6 +44,11 @@ TYPE_CONVERSION = {
     "int[4]": "Int4",
     "const GlyphInfo": "GlyphInfo",
     "const Matrix": "Matrix",
+    "const Vector2": "Vector2",
+    "const Vector3": "Vector3",
+    "const float": "Interfaces.C.C_float",
+    "rAudioBuffer *": "System.Address",
+    "rAudioProcessor *": "System.Address",
 }
 
 TYPE_IDENTITY = [
@@ -74,6 +79,7 @@ TYPE_IDENTITY = [
     "Model",
     "BoundingBox",
     "ModelAnimation",
+    "Sound",
 ]
 
 
@@ -181,7 +187,7 @@ print("   type Float4 is array (0 .. 3) of Interfaces.C.C_float;")
 print("   type Int4 is array (0 .. 3) of Interfaces.C.int;")
 print("   subtype String32 is String (1 .. 32);")
 
-SKIP_STRUCTS = ["ModelAnimation", "FilePathList", "AudioStream", "Music", "Sound"]
+SKIP_STRUCTS = ["ModelAnimation", "FilePathList", "Music"]
 for struct in data["structs"]:
     if struct["name"] not in SKIP_STRUCTS:
         gen_struct(struct)
@@ -214,7 +220,7 @@ SKIP_FUNCTIONS = [
 for function in data["functions"]:
     if (
         "VrSteree" not in function["name"]
-        and "Sound" not in function["name"]
+        #and "Sound" not in function["name"]
         and "Music" not in function["name"]
         and "Callback" not in function["name"]
         and "ModelAnimation" not in function["name"]

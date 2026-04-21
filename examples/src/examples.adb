@@ -9,8 +9,8 @@ procedure Examples is
    package Example_Resources is new Resources (Examples_Config.Crate_Name);
    use Example_Resources;
 
-   screenWidth  : constant := 800;
-   screenHeight : constant := 450;
+   screenWidth  : constant := 1920;
+   screenHeight : constant := 1080;
 
    Cam : aliased Raylib.Camera3D;
    Cube_Position : constant Raylib.Vector3 := (0.0, 0.0, 0.0);
@@ -28,6 +28,8 @@ procedure Examples is
 
    Model : Raylib.Model;
    Texture : Raylib.Texture;
+
+   Font : Raylib.Font;
 begin
 
    Raylib.InitWindow (screenWidth, screenHeight,
@@ -37,6 +39,8 @@ begin
    Texture :=
      Raylib.LoadTexture (New_String (Resource_Path & "/castle_diffuse.png"));
    Model.materials.maps.texture_f := Texture;
+
+   Font := Raylib.LoadFont (New_String (Resource_Path & "/MS33558.ttf"));
 
    Cam.position := (10.0, 10.0, 10.0);
    Cam.target := (0.0, 0.0, 0.0);
@@ -114,17 +118,22 @@ begin
 
       Raylib.EndMode3D;
 
-      Raylib.DrawText (Str1, 240, 10, 20, Raylib.DARKGRAY);
+      --  Raylib.DrawText (Str1, 240, 10, 20, Raylib.DARKGRAY);
+      Raylib.DrawTextEx (Font, Str1, (240.0, 10.0), 32.0, 1.0, Raylib.DARKGRAY);
 
       if Collision.hit then
-         Raylib.DrawText
-           (Selected_Str,
-            (screenWidth - Raylib.MeasureText (Selected_Str, 30)) / 2,
-            int (screenHeight * 0.1), 30,
-            Raylib.GREEN);
+         Raylib.DrawTextEx
+           (font_p => Font,
+            text   => Selected_Str,
+            position =>
+               (x => C_float ((screenWidth - Raylib.MeasureText (Selected_Str, 30)) / 2),
+                y => C_float (screenHeight * 0.1)),
+            fontSize => C_float (48.0),
+            spacing => C_float (1.0),
+            tint => Raylib.GREEN);
       end if;
 
-      Raylib.DrawText (Str2, 10, 430, 10, Raylib.GRAY);
+      Raylib.DrawTextEx (Font, Str2, (10.0, 430.0), 32.0, 1.0, Raylib.GRAY);
 
       Raylib.DrawFPS (10, 10);
       Raylib.EndDrawing;
